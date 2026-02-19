@@ -172,3 +172,40 @@ class LoginPageView(TemplateView):
 
 class CartPageView(TemplateView):
     template_name = "core/cart.html"
+
+
+from django.shortcuts import render
+from django.apps import apps
+
+def api_logs_page(request):
+    core_models = list(apps.get_app_config('core').get_models())
+    def fieldnames(m):
+        return {f.name for f in m._meta.fields}
+    def score(m):
+        names = fieldnames(m)
+        want = ['method','path','status_code','status','latency_ms','timestamp','created_at','user','request_method','request_path']
+        return sum(1 for w in want if w in names)
+    LogModel = max(core_models, key=score)
+    qs = LogModel.objects.all().order_by('-id')[:200]
+    rows = []
+    for o in qs:
+        fn = fieldnames(LogModel)
+        method = getattr(o, 'method', None) or getattr(o, 'request_method', None) or '-'
+        path   = getattr(o, 'path', None) or getattr(o, 'request_path', None) or '-'
+        status = getattr(o, 'status_code', None) or getattr(o, 'status', None) or '-'
+        latency = getattr(o, 'latency_ms', None)
+        when = getattr(o, 'created_at', None) or getattr(o, 'timestamp', None) or '-'
+        user_obj = getattr(o, 'user', None)
+        user = '-'
+        if user_obj:
+            user = getattr(user_obj, 'email', None) or getattr(user_obj, 'username', None) or str(user_obj)
+        rows.append({
+            'id': getattr(o, 'id', '-'),
+            'when': when,
+            'user': user,
+            'method': method,
+            'path': path,
+            'status': status,
+            'latency': (f"{latency} ms" if latency is not None else '-')
+        })
+    return render(request, 'core/api_logs.html', {'logs': rows})

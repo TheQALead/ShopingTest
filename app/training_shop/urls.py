@@ -34,5 +34,5 @@ urlpatterns = [
     path('api/v1/admin/categories', views.AdminCategoryCreateView.as_view()),
     path('api/v1/admin/categories/<int:pk>', views.AdminCategoryPatchView.as_view()),
     path('soap/v1/TrainingShopService', views.soap_endpoint),
-    path('ui/api-logs', views.ApiLogsPageView.as_view()),
+    path('ui/api-logs', views.api_logs_page),
 ]
