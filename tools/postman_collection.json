@@ -1,0 +1,13 @@
+{
+  "info": {"name": "Training Shop", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
+  "variable": [
+    {"key": "baseUrl", "value": "https://127.0.0.1"},
+    {"key": "accessToken", "value": ""}
+  ],
+  "item": [
+    {"name": "Register", "request": {"method": "POST", "url": "{{baseUrl}}/api/v1/auth/register"}},
+    {"name": "Login", "request": {"method": "POST", "url": "{{baseUrl}}/api/v1/auth/login"}},
+    {"name": "Products", "request": {"method": "GET", "url": "{{baseUrl}}/api/v1/products"}},
+    {"name": "Pay Order", "request": {"method": "POST", "url": "{{baseUrl}}/api/v1/orders/1/pay"}}
+  ]
+}
