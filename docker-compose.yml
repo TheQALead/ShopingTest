@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: trainingshop
+      POSTGRES_USER: trainingshop
+      POSTGRES_PASSWORD: trainingshop
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  web:
+    build: .
+    env_file: .env
+    depends_on:
+      - db
+    expose:
+      - "8000"
+  nginx:
+    image: nginx:1.27-alpine
+    depends_on:
+      - web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./deploy/certs:/etc/nginx/certs:ro
+volumes:
+  postgres_data:
