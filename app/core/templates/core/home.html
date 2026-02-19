@@ -1,0 +1,46 @@
+{% extends "core/base.html" %}
+{% block title %}Training Shop — Витрина{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-end justify-content-between mb-3">
+  <div>
+    <h1 class="h3 mb-1">Витрина</h1>
+    <div class="muted">Минималистичный UI. Товары берём из API.</div>
+  </div>
+
+  <form class="d-flex gap-2" method="get" action="/">
+    <input class="form-control form-control-sm" name="q" placeholder="Поиск" value="{{ request.GET.q|default:'' }}">
+    <button class="btn btn-sm btn-outline-dark">Найти</button>
+  </form>
+</div>
+
+<div class="row g-3">
+  {% for p in products %}
+    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+      <div class="card card-hover h-100">
+        <div class="ratio ratio-4x3 bg-light">
+          <img alt="" src="{{ p.image_url|default:'https://picsum.photos/600/450?blur=1' }}" style="object-fit:cover;">
+        </div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between gap-2">
+            <div class="fw-semibold text-truncate">{{ p.name }}</div>
+            <div class="fw-bold">{{ p.price }}</div>
+          </div>
+          <div class="muted small text-truncate">{{ p.category|default:'Без категории' }}</div>
+
+          <div class="d-flex gap-2 mt-3">
+            <a class="btn btn-sm btn-outline-primary w-100" href="#" title="пока заглушка">Карточка</a>
+            <a class="btn btn-sm btn-primary w-100" href="/cart" title="пока заглушка">В корзину</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <div class="col-12">
+      <div class="alert alert-warning mb-0">
+        Пока нет товаров. Добавь пару товаров через <a href="/admin/" class="alert-link">админку</a> (Products → Add).
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "core/base.html" %}
+{% block title %}Training Shop — Вход{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-md-6 col-lg-5">
+    <div class="card">
+      <div class="card-body p-4">
+        <h1 class="h4 mb-1">Вход</h1>
+        <div class="muted mb-3">UI-заглушка. Реальная авторизация — через API /api/v1/auth/login.</div>
+
+        <form>
+          <div class="mb-2">
+            <label class="form-label">Email</label>
+            <input class="form-control" placeholder="student@example.com">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Пароль</label>
+            <input class="form-control" type="password" placeholder="Password123!">
+          </div>
+          <button type="button" class="btn btn-primary w-100" disabled>Войти (скоро)</button>
+        </form>
+
+        <hr class="my-4">
+        <div class="small muted">
+          Для практики: открой DevTools → Network и посмотри запросы при логине через Swagger/SoapUI/Postman.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

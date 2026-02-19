@@ -15,7 +15,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'drf_spectacular',
-    'core',
+    'app.core',
 ]
 
 MIDDLEWARE = [
@@ -27,10 +27,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'core.middleware.ApiLogMiddleware',
+    'app.core.middleware.ApiLogMiddleware',
 ]
 
-ROOT_URLCONF = 'training_shop.urls'
+ROOT_URLCONF = 'app.training_shop.urls'
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
     'DIRS': [BASE_DIR / 'templates'],
@@ -41,7 +41,7 @@ TEMPLATES = [{
         'django.contrib.messages.context_processors.messages',
     ]},
 }]
-WSGI_APPLICATION = 'training_shop.wsgi.application'
+WSGI_APPLICATION = 'app.training_shop.wsgi.application'
 
 DATABASES = {
     'default': {

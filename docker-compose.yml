@@ -13,8 +13,8 @@ services:
     env_file: .env
     depends_on:
       - db
-    expose:
-      - "8000"
+    ports:
+      - "8000:8000"
   nginx:
     image: nginx:1.27-alpine
     depends_on:

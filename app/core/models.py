@@ -21,6 +21,8 @@ class InviteCode(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
+    def __str__(self):
+        return self.name
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -28,7 +30,13 @@ class Product(models.Model):
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=4)
     visible = models.BooleanField(default=True)
+    image_url = models.URLField(blank=True, default="")
+
     stock = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.title
+
 
 class Card(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

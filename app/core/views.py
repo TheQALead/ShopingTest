@@ -142,3 +142,33 @@ def soap_endpoint(request):
     if 'accessToken' not in request.body.decode('utf-8', errors='ignore'):
         return HttpResponse("<Fault>AuthRequired</Fault>", status=500, content_type='text/xml')
     return HttpResponse('<Response>OK</Response>', content_type='text/xml')
+
+# --- UI pages (Django templates) ---
+from django.views.generic import TemplateView
+from .models import Product
+
+class HomePageView(TemplateView):
+    template_name = "core/home.html"
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        q = (self.request.GET.get("q") or "").strip()
+        qs = Product.objects.all().order_by("id")[:40]
+        if q:
+            qs = Product.objects.filter(name__icontains=q).order_by("id")[:40]
+        ctx["products"] = [
+            {
+                "name": p.title,
+                "price": f"{p.price}",
+                "image_url": getattr(p, "image_url", None),
+                "category": getattr(getattr(p, "category", None), "name", None),
+            }
+            for p in qs
+        ]
+        return ctx
+
+class LoginPageView(TemplateView):
+    template_name = "core/login.html"
+
+class CartPageView(TemplateView):
+    template_name = "core/cart.html"
